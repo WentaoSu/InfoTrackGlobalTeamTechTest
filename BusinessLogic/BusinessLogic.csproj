@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogicDataModel\BusinessLogicDataModel.csproj" />
+    <ProjectReference Include="..\DataAccessor\DataAccessor.csproj" />
+    <ProjectReference Include="..\DataModel\EntityModel.csproj" />
+  </ItemGroup>
+
+</Project>

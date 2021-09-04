@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>InfoTrackGlobalTeamTechTest</name>
+    </assembly>
+    <members>
+        <member name="T:InfoTrackGlobalTeamTechTest.Controllers.SettlementController">
+            <summary>
+            SettlementController
+            </summary>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Controllers.SettlementController.#ctor(MediatR.IMediator,AutoMapper.IMapper)">
+            <summary>
+            SettlementController constructor
+            </summary>
+            <param name="mediator"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Controllers.SettlementController.CreateBooking(BusinessLogicDataModel.BookingInput)">
+            <summary>
+            Create booking based on BookingRequest object, if succeeded, the booking id is returned.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Controllers.SettlementController.RetrieveBooking(System.Guid)">
+            <summary>
+            Retrieve One booking by booking Id.
+            </summary>
+            <param name="bookingId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Controllers.SettlementController.GetReadMeText">
+            <summary>
+            Some instructions for this api project
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:InfoTrackGlobalTeamTechTest.MappingProfile">
+            <summary>
+            MappingProfile
+            </summary>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.MappingProfile.#ctor">
+            <summary>
+            MappingProfile constructor
+            </summary>
+        </member>
+        <member name="T:InfoTrackGlobalTeamTechTest.Middleware.ErrorHandlingMiddleWare">
+            <summary>
+            ErrorHandlingMiddleWare
+            </summary>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Middleware.ErrorHandlingMiddleWare.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            ErrorHandlingMiddleWare constructor
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Middleware.ErrorHandlingMiddleWare.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invoke
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:InfoTrackGlobalTeamTechTest.Program">
+            <summary>
+            Program
+            </summary>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Program.Main(System.String[])">
+            <summary>
+            Entry point
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            CreateHostBuilder
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:InfoTrackGlobalTeamTechTest.Responses.BookingResponse">
+            <summary>
+            Contains a Guid BookingId, returned after Booking is successfully created
+            </summary>
+        </member>
+        <member name="P:InfoTrackGlobalTeamTechTest.Responses.BookingResponse.BookingId">
+            <summary>
+            Guid BookingId
+            </summary>
+        </member>
+        <member name="T:InfoTrackGlobalTeamTechTest.Responses.ErrorResponse`1">
+            <summary>
+            ErrorResponse
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:InfoTrackGlobalTeamTechTest.Responses.ErrorResponse`1.ErrorMessage">
+            <summary>
+            ErrorMessage
+            </summary>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Responses.ErrorResponse`1.Create(System.String)">
+            <summary>
+            Create
+            </summary>
+            <param name="errorMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="T:InfoTrackGlobalTeamTechTest.Startup">
+            <summary>
+            Asp net core Startup
+            </summary>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Startup constructor
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:InfoTrackGlobalTeamTechTest.Startup.Configuration">
+            <summary>
+            Configuration Property
+            </summary>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:InfoTrackGlobalTeamTechTest.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

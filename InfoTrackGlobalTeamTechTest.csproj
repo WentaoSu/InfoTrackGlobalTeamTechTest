@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Work\Research\InterviewProjects\InfoTrackGlobalTeamTechTest\InfoTrackGlobalTeamTechTest.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="BusinessLogicDataModel\**" />
+    <Compile Remove="BusinessLogic\**" />
+    <Compile Remove="DataAccessor\**" />
+    <Compile Remove="DataModel\**" />
+    <Compile Remove="Tests\**" />
+    <Content Remove="BusinessLogicDataModel\**" />
+    <Content Remove="BusinessLogic\**" />
+    <Content Remove="DataAccessor\**" />
+    <Content Remove="DataModel\**" />
+    <Content Remove="Tests\**" />
+    <EmbeddedResource Remove="BusinessLogicDataModel\**" />
+    <EmbeddedResource Remove="BusinessLogic\**" />
+    <EmbeddedResource Remove="DataAccessor\**" />
+    <EmbeddedResource Remove="DataModel\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <None Remove="BusinessLogicDataModel\**" />
+    <None Remove="BusinessLogic\**" />
+    <None Remove="DataAccessor\**" />
+    <None Remove="DataModel\**" />
+    <None Remove="Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.18" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.18" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="BusinessLogicDataModel\BusinessLogicDataModel.csproj" />
+    <ProjectReference Include="BusinessLogic\BusinessLogic.csproj" />
+    <ProjectReference Include="DataAccessor\DataAccessor.csproj" />
+  </ItemGroup>
+
+
+</Project>
