@@ -20,6 +20,8 @@ namespace Tests.Steps
 
         private readonly ScenarioContext _scenarioContext;
         private readonly TestHttpClient _httpClient;
+        private object _syncObj = new object();
+        private string failedBookingCount = "FailedBookingCount";
 
         public BookingTests(ScenarioContext scenarioContext, TestHttpClient httpClient)
         {
@@ -30,28 +32,53 @@ namespace Tests.Steps
         [Given(@"There're below bookings:")]
         public async Task GivenThereReBelowBookings(Table table)
         {
-            await CreateBooking(table, "ExistingBookings");
+            await CreateBookings(table, "ExistingBookings", true);
         }
 
-        private async Task CreateBooking(Table table, string bookingKeyInContext)
+        private async Task CreateBookings(Table table, string bookingKeyInContext, bool ensureBookingIsMade)
         {
             var bookingRequests = table.CreateSet<BookingInput>().ToList();
             foreach (var request in bookingRequests)
             {
-                await _httpClient.PostAsync($"Settlement/create-booking", request);
-                var response = _httpClient.ReadResponse<BookingResponse>();
-                //Assert.NotNull(response);
-                //Assert.True(response.BookingId != Guid.Empty);
+                await CreateOneBooking(bookingKeyInContext, ensureBookingIsMade, request);
+            }
+        }
 
-                if (!_scenarioContext.ContainsKey(bookingKeyInContext))
+        private async Task CreateOneBooking(string bookingKeyInContext, bool ensureBookingIsMade, BookingInput request)
+        {
+            await _httpClient.PostAsync($"Settlement/create-booking", request);
+            var response = _httpClient.ReadResponse<BookingResponse>();
+            if (ensureBookingIsMade)
+            {
+                Assert.True(response.BookingId != Guid.Empty, "bookingId is null!");
+            }
+
+            lock (_syncObj)
+            {
+                if (response.BookingId != Guid.Empty)
                 {
-                    _scenarioContext.Set( new List<BookingResponse> { response }, bookingKeyInContext);
+                    if (!_scenarioContext.ContainsKey(bookingKeyInContext))
+                    {
+                        _scenarioContext.Set(new List<BookingResponse> { response }, bookingKeyInContext);
+                    }
+                    else
+                    {
+                        var bookings = _scenarioContext.Get<List<BookingResponse>>(bookingKeyInContext);
+                        bookings.Add(response);
+                        _scenarioContext[bookingKeyInContext] = bookings;
+                    }
                 }
                 else
                 {
-                    var bookings = _scenarioContext.Get<List<BookingResponse>>(bookingKeyInContext);
-                    bookings.Add(response);
-                    _scenarioContext[bookingKeyInContext] = bookings;
+                    if (!_scenarioContext.ContainsKey(failedBookingCount))
+                    {
+                        _scenarioContext.Set(1, failedBookingCount);
+                    }
+                    else
+                    {
+                        int currentFails = _scenarioContext.Get<int>(failedBookingCount);
+                        _scenarioContext[failedBookingCount] = currentFails + 1;
+                    }
                 }
             }
         }
@@ -59,20 +86,12 @@ namespace Tests.Steps
         [When(@"A new booking is made with below details:")]
         public async Task WhenANewBookingIsMadeWithBelowDetails(Table table)
         {
-            await CreateBooking(table, "NewBookings");
+            await CreateBookings(table, "NewBookings", false);
         }
-
-        //[Then(@"the booking is created with http status code: (.*)")]
-        //public void ThenTheBookingIsCreatedWithHttpStatusCode(int statusCode)
-        //{
-        //    var responseMsg = _scenarioContext.Get<HttpResponseMessage>("HttpResponseMessage");
-        //    Assert.Equal(statusCode, (int)responseMsg.StatusCode);
-        //}
 
         [Then(@"the successful new booking count is: (.*)")]
         public void ThenTheSuccessfulNewBookingCountIs(int count)
         {
-            var responseMsg = _scenarioContext.Get<HttpResponseMessage>("HttpResponseMessage");
             if (_scenarioContext.ContainsKey("NewBookings"))
             {
                 var bookings = _scenarioContext["NewBookings"] as List<BookingResponse>;
@@ -81,6 +100,29 @@ namespace Tests.Steps
             }
             else
                 Assert.Equal(count, 0);
+        }
+
+        [Then(@"the failed booking count is: (.*)")]
+        public void ThenTheFailedBookingCountIs(int expectedFailedBookingCount)
+        {
+            int currentFails = _scenarioContext.Get<int>(failedBookingCount);
+            Assert.Equal(expectedFailedBookingCount, currentFails);
+        }
+
+
+        [When(@"the below concurrent booking is made:")]
+        public async Task WhenTheBelowConcurrentBookingIsMade(Table table)
+        {
+            var tasks = new List<Task>();
+            var bookingRequests = table.CreateSet<BookingInput>().ToList();
+            foreach (var request in bookingRequests)
+            {
+                tasks.Add(Task.Run(async () =>
+                {
+                    await CreateOneBooking("NewBookings", false, request);
+                }));
+            }
+            await Task.WhenAll(tasks);
         }
 
         [Then(@"the booking api returns http status code: (.*)")]

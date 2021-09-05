@@ -12,6 +12,7 @@ namespace Tests.Environments
     public class TestHttpClient
     {
         private ScenarioContext _context;
+        private object _locker = new object();
 
         public TestHttpClient(ScenarioContext context)
         {
@@ -22,19 +23,25 @@ namespace Tests.Environments
         {
             get
             {
-                var response = _context.Get<HttpResponseMessage>("HttpResponseMessage");
-                return response;
+                lock (_locker)
+                {
+                    var response = _context.Get<HttpResponseMessage>("HttpResponseMessage");
+                    return response;
+                }
             }
 
             private set
             {
-                if (_context.ContainsKey("HttpResponseMessage"))
+                lock (_locker)
                 {
-                    _context.Get<HttpResponseMessage>("HttpResponseMessage")?.Dispose();
-                }
+                    if (_context.ContainsKey("HttpResponseMessage"))
+                    {
+                        _context.Get<HttpResponseMessage>("HttpResponseMessage")?.Dispose();
+                    }
 
-                _context["HttpResponseMessage"] = value;
-                _context["ResponseContent"] = null;
+                    _context["HttpResponseMessage"] = value;
+                    _context["ResponseContent"] = null;
+                }
             }
         }
 
@@ -65,10 +72,7 @@ namespace Tests.Environments
                 _context["ResponseContent"] = Response.Content.ReadAsStringAsync().Result;
             }
 
-            return JsonConvert.DeserializeObject<T>(_context["ResponseContent"].ToString(), new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+            return JsonConvert.DeserializeObject<T>(_context["ResponseContent"].ToString());
         }
 
         public void EnsureSuccess()

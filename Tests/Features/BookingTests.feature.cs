@@ -253,13 +253,13 @@ this.ScenarioInitialize(scenarioInfo);
                             "BookingTime",
                             "Name"});
                 table5.AddRow(new string[] {
-                            "12:00",
-                            "Wentao Su"});
-                table5.AddRow(new string[] {
                             "11:30",
                             "Wentao Su"});
                 table5.AddRow(new string[] {
-                            "12:30",
+                            "11:00",
+                            "Wentao Su"});
+                table5.AddRow(new string[] {
+                            "12:00",
                             "Wentao Su"});
 #line 31
  testRunner.Given("There\'re below bookings:", ((string)(null)), table5, "Given ");
@@ -268,7 +268,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "BookingTime",
                             "Name"});
                 table6.AddRow(new string[] {
-                            "12:00",
+                            "11:30",
                             "Wentao Su"});
 #line 36
  testRunner.When("A new booking is made with below details:", ((string)(null)), table6, "When ");
@@ -690,14 +690,23 @@ this.ScenarioInitialize(scenarioInfo);
                 table18.AddRow(new string[] {
                             "15:00",
                             "Wentao Su"});
+                table18.AddRow(new string[] {
+                            "15:00",
+                            "Wentao Su"});
+                table18.AddRow(new string[] {
+                            "15:00",
+                            "Wentao Su"});
+                table18.AddRow(new string[] {
+                            "15:00",
+                            "Wentao Su"});
 #line 112
- testRunner.When("A new booking is made with below details:", ((string)(null)), table18, "When ");
+ testRunner.When("the below concurrent booking is made:", ((string)(null)), table18, "When ");
 #line hidden
-#line 115
- testRunner.Then("the booking api returns http status code: 201", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 116
+#line 118
  testRunner.Then("the successful new booking count is: 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 119
+ testRunner.Then("the failed booking count is: 5", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -30,12 +30,12 @@ Scenario: 4 X same time slot
 Scenario: Double Overlapping
 	Given There're below bookings:
 	| BookingTime | Name      |
-	| 12:00       | Wentao Su |
 	| 11:30       | Wentao Su |
-	| 12:30       | Wentao Su |
+	| 11:00       | Wentao Su |
+	| 12:00       | Wentao Su |
 	When A new booking is made with below details:
 	| BookingTime | Name      |
-	| 12:00       | Wentao Su |
+	| 11:30       | Wentao Su |
 	Then the booking api returns http status code: 201
 	Then the successful new booking count is: 1
 
@@ -109,8 +109,11 @@ Scenario: Composite tests
 	| 14:59       | Wentao Su |
 	Then the booking api returns http status code: 409
 	Then the successful new booking count is: 0
-	When A new booking is made with below details:
+	When the below concurrent booking is made:
 	| BookingTime | Name      |
 	| 15:00       | Wentao Su |
-	Then the booking api returns http status code: 201
+	| 15:00       | Wentao Su |
+	| 15:00       | Wentao Su |
+	| 15:00       | Wentao Su |
 	Then the successful new booking count is: 1
+	Then the failed booking count is: 5
