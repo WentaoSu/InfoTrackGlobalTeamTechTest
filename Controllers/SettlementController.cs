@@ -66,7 +66,7 @@ namespace InfoTrackGlobalTeamTechTest.Controllers
         [HttpGet("readme")]
         public IActionResult GetReadMeText()
         {
-            return Ok("Thanks for the fun assignment, to run unit test, please download SpecFlow extension in your Visual Studio.");
+            return Ok("Thanks for the fun test, I have covered pretty much all topics mentioned in the previous interview in this solution. To run unit test, please download SpecFlow extension in your Visual Studio (and you might have to register for the first time use, check the output of the test results, there should be a link to take you to the registration page.).");
         }
     }
 }
